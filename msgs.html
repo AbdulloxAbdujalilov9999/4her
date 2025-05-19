@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="msgs.css">
+  <title>Messages to Her</title>
+  <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <section class="diary-section">
+    <h2 class="diary-title">Messages to Her 💖</h2>
+
+    <div class="form-container">
+      <textarea id="messageText" rows="4" placeholder="Write something sweet..."></textarea>
+      <input type="date" id="messageDate" />
+      <button onclick="saveMessage()">Save Message</button>
+    </div>
+
+    <div class="diary-container" id="diaryContainer"></div>
+  </section>
+
+  <script>
+    // Load saved messages on page load
+    window.onload = function() {
+      displayAllMessages();
+    };
+
+    function saveMessage() {
+      const text = document.getElementById('messageText').value.trim();
+      const date = document.getElementById('messageDate').value || new Date().toISOString().split('T')[0];
+      
+      if (!text) return alert("Please write something!");
+
+      const message = { text, date };
+
+      const messages = JSON.parse(localStorage.getItem('messagesToHer')) || [];
+      messages.push(message);
+      localStorage.setItem('messagesToHer', JSON.stringify(messages));
+
+      document.getElementById('messageText').value = '';
+      document.getElementById('messageDate').value = '';
+
+      displayAllMessages();
+    }
+
+    function displayAllMessages() {
+      const container = document.getElementById('diaryContainer');
+      container.innerHTML = ""; // Clear old entries
+      const messages = JSON.parse(localStorage.getItem('messagesToHer')) || [];
+
+      messages.slice().reverse().forEach((message, index) => {
+        displayMessage(message, messages.length - 1 - index);
+      });
+    }
+
+    function displayMessage({ text, date }, index) {
+      const container = document.getElementById('diaryContainer');
+      const entry = document.createElement('div');
+      entry.className = 'diary-entry';
+      entry.innerHTML = `
+        <button class="delete-btn" onclick="deleteMessage(${index})">Delete</button>
+        ${text.replace(/\n/g, '<br/>')}
+        <div class="entry-date">${date}</div>
+      `;
+      container.appendChild(entry);
+    }
+
+    function deleteMessage(index) {
+      const passcode = prompt("Enter the delete passcode:");
+      if (passcode !== "@aisham") {
+        alert("Incorrect passcode. Only the owner can delete messages.");
+        return;
+      }
+
+      const messages = JSON.parse(localStorage.getItem('messagesToHer')) || [];
+      messages.splice(index, 1);
+      localStorage.setItem('messagesToHer', JSON.stringify(messages));
+      displayAllMessages();
+    }
+  </script>
+
+</body>
+</html>

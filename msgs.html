@@ -1,85 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="msgs.css">
-  <title>Messages to Her</title>
-  <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I wanna say...</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Lora&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="poems.css">
 </head>
 <body>
+    <h1>I am going to save here, the things I wanted to tell you...</h1>
 
-  <section class="diary-section">
-    <h2 class="diary-title">Messages to Her 💖</h2>
 
-    <div class="form-container">
-      <textarea id="messageText" rows="4" placeholder="Write something sweet..."></textarea>
-      <input type="date" id="messageDate" />
-      <button onclick="saveMessage()">Save Message</button>
+     <div class="poem-container">
+    <h1>I'm unworthy</h1>
+
+    <div class="poem" onclick="togglePoem(this)">
+      <div class="poem-title">22.05.2025</div>
+      <div class="poem-preview">I couldnt keep my promise to you.. <br>I am not worthy...</div>
+      <div class="poem-full">
+       I have been hurting you a lot lately... <br>
+       I really feel like unworthy, I love you so much I never want to hurt you
+       but look what I am doing... 
+       I made you cry today.. I.. I didnt want that.. 
+       I promised you you'd only cry from happiness if you are with me... 
+       I said you will feel only love not the pain..
+       But I couldnt keep my promise... You cried because of me... 
+       I won't forgive myself...
+      </div>
     </div>
 
-    <div class="diary-container" id="diaryContainer"></div>
-  </section>
+    <a href="index.html" class="back-link">← Ortga qaytish</a>
+  </div>
+
+  <div class="poem-container">
+    <h1>Saving...</h1>
+
+    <div class="poem" onclick="togglePoem(this)">
+      <div class="poem-title">22.05.2025</div>
+      <div class="poem-preview"><br>You saved me from vanishing... <br>You saved my feelings...</div>
+      <div class="poem-full">
+        I really was dying emotionally, I have waited for someone who at least tries to save me
+        But none came... None but you.. 
+        Only you saw my feelings, only you felt them
+        You saw me in pitch black and lent me your hand.  Only you could look at my eyes and feel the pain..
+        You didnt just see it, you tried to heal me.. 
+        I didnt have someone like you, someone who actually cares about me. 
+        Someone who actually feel the lines I wrote.. Feel the emotions I had... 
+      </div>
+    </div>
+     <a href="index.html" class="back-link">← Ortga qaytish</a>
+  </div>
+
+ 
 
   <script>
-    // Load saved messages on page load
-    window.onload = function() {
-      displayAllMessages();
-    };
-
-    function saveMessage() {
-      const text = document.getElementById('messageText').value.trim();
-      const date = document.getElementById('messageDate').value || new Date().toISOString().split('T')[0];
-      
-      if (!text) return alert("Please write something!");
-
-      const message = { text, date };
-
-      const messages = JSON.parse(localStorage.getItem('messagesToHer')) || [];
-      messages.push(message);
-      localStorage.setItem('messagesToHer', JSON.stringify(messages));
-
-      document.getElementById('messageText').value = '';
-      document.getElementById('messageDate').value = '';
-
-      displayAllMessages();
-    }
-
-    function displayAllMessages() {
-      const container = document.getElementById('diaryContainer');
-      container.innerHTML = ""; // Clear old entries
-      const messages = JSON.parse(localStorage.getItem('messagesToHer')) || [];
-
-      messages.slice().reverse().forEach((message, index) => {
-        displayMessage(message, messages.length - 1 - index);
-      });
-    }
-
-    function displayMessage({ text, date }, index) {
-      const container = document.getElementById('diaryContainer');
-      const entry = document.createElement('div');
-      entry.className = 'diary-entry';
-      entry.innerHTML = `
-        <button class="delete-btn" onclick="deleteMessage(${index})">Delete</button>
-        ${text.replace(/\n/g, '<br/>')}
-        <div class="entry-date">${date}</div>
-      `;
-      container.appendChild(entry);
-    }
-
-    function deleteMessage(index) {
-      const passcode = prompt("Enter the delete passcode:");
-      if (passcode !== "@aisham") {
-        alert("Incorrect passcode. Only the owner can delete messages.");
-        return;
-      }
-
-      const messages = JSON.parse(localStorage.getItem('messagesToHer')) || [];
-      messages.splice(index, 1);
-      localStorage.setItem('messagesToHer', JSON.stringify(messages));
-      displayAllMessages();
+    function togglePoem(el) {
+      const full = el.querySelector(".poem-full");
+      full.style.display = full.style.display === "block" ? "none" : "block";
     }
   </script>
-
 </body>
 </html>
